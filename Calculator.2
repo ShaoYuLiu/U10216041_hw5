@@ -1,5 +1,4 @@
 import java.awt.*;
-import java.lang.reflect.Array;
 import java.awt.event.*;
 import javax.swing.*;
 
@@ -23,7 +22,7 @@ public class Calculator extends JFrame{
 	private JButton jbtClear = new JButton("C");
 	private JLabel jlbStrValue1 = new JLabel();
 	private JTextField jtfPrint = new JTextField();
-	
+
 	public Calculator(){
 		JPanel p1 = new JPanel(new BorderLayout());
 		jtfPrint.setEditable(false);
@@ -76,11 +75,11 @@ public class Calculator extends JFrame{
 	double dbValue1=0.0;
 	double dbValue2=0.0;
 	double dbResult=0.0;
-	int iOperation;
+	int iOperation=0;
 	boolean bValue1ready = false;
 	boolean bValue2ready = false;
 
-	protected class ButtonListener implements ActionListener{
+	private class ButtonListener implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent e){
 			if(e.getSource() == jbtClear){
@@ -89,6 +88,7 @@ public class Calculator extends JFrame{
 				StrValue1="";
 				StrValue2="";
 				StrResult="0";
+				iOperation=0;
 				dbValue1=0.0;
 				dbValue2=0.0;
 				dbResult=0.0;
@@ -271,90 +271,85 @@ public class Calculator extends JFrame{
 				}
 			}
 			else if(e.getSource() == jbtPlus){
-				dbValue1 = Double.parseDouble(StrValue1);
-				iOperation=1;
-				bValue1ready = true;
+				if(iOperation==0){
+					dbValue1 = Double.parseDouble(StrValue1);
+					iOperation=1;
+					bValue1ready = true;
+				}
+				else
+					System.out.println("Double press PLUS");
 			}
 			else if(e.getSource() == jbtMinus){
-				dbValue1 = Double.parseDouble(StrValue1);
-				iOperation=2;
-				bValue1ready = true;
+				if(iOperation==0){
+					dbValue1 = Double.parseDouble(StrValue1);
+					iOperation=2;
+					bValue1ready = true;
+				}
+				else
+					System.out.println("Double press MINUS");
 			}
 			else if(e.getSource() == jbtMultiple){
-				dbValue1 = Double.parseDouble(StrValue1);
-				iOperation=3;
-				bValue1ready = true;
+				if(iOperation==0){
+					dbValue1 = Double.parseDouble(StrValue1);
+					iOperation=3;
+					bValue1ready = true;
+				}
+				else
+					System.out.println("Double press MULTIPLE");
 			}
 			else if(e.getSource() == jbtDevide){
-				dbValue1 = Double.parseDouble(StrValue1);
-				iOperation=4;
-				bValue1ready = true;
+				if(iOperation==0){
+					dbValue1 = Double.parseDouble(StrValue1);
+					iOperation=4;
+					bValue1ready = true;
+				}
+				else
+					System.out.println("Double press DEVIDE");
 			}
 			else if(e.getSource() == jbtEqual){
-				bValue2ready=true;
-				if(bValue1ready==true){
-					dbValue2=Double.valueOf(StrValue2);
-					switch(iOperation)
-					{
-						case 1:
-							dbResult=dbValue1+dbValue2; break;
-						case 2:
-							dbResult=dbValue1-dbValue2; break;
-						case 3:
-							dbResult=dbValue1*dbValue2; break;
-						case 4:
-							dbResult=dbValue1/dbValue2; break;
+				if(StrValue2!="")
+				{
+					bValue2ready=true;
+					if(bValue1ready==true){
+						dbValue2=Double.valueOf(StrValue2);
+						switch(iOperation)
+						{
+							case 1:
+								dbResult=dbValue1+dbValue2;
+								break;
+							case 2:
+								dbResult=dbValue1-dbValue2;
+								break;
+							case 3:
+								dbResult=dbValue1*dbValue2;
+								break;
+							case 4:
+								dbResult=dbValue1/dbValue2;
+								break;
+						}
+						StrResult=String.format("%1$.02f", dbResult);
+						jtfPrint.setText(StrResult);
+						StrValue1=StrResult;
+						dbValue1=dbResult;
+						StrValue2="";
+						iOperation=0;
 					}
-					StrResult=String.format("%1$.02f", dbResult);
-					jtfPrint.setText(StrResult);
 				}
-
+				else
+					System.out.println("Failed in double press EQUAL Button");
 			}
 		}
 	}
 
+
 	public static void main(String[] args){
+		System.out.println("Main Entry ..");
+		
 		Calculator frame = new Calculator();
 		frame.setSize(250, 300);
 		frame.setTitle("CALCULATOR");
 		frame.setLocationRelativeTo(null); // Center the frame
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setVisible(true);
-
-		Password pw = new Password();
-		pw.setSize(400, 300);
-		pw.setTitle("Password");
-		pw.setLocationRelativeTo(null); // Center the frame
-		pw.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		pw.setVisible(true);
-	}
-}
-
-
-class Password extends Calculator{
-	private JPasswordField jtfPassword = new JPasswordField();
-	private JButton jbtEnter = new JButton("Enter");
-	private JButton jbtCancel = new JButton("Cancel");
-	private JLabel jlbPrint = new JLabel("");
-	//private char keyin[] = Password.getPassword();
-	private char pwd[] = {'0', '0', '0', '0'};
-
-	public Password(){
-		JPanel p1 = new JPanel(new GridLayout(2, 1));
-		p1.add(new JLabel("Please enter 0000 to open the calculator or cancel."));
-		p1.add(jtfPassword);
-
-		JPanel p2 = new JPanel(new FlowLayout(FlowLayout.CENTER));
-		p2.add(jbtEnter);
-		p2.add(jbtCancel);
-
-		JPanel p3 = new JPanel();
-		p3.add(jlbPrint);
-
-		add(p1, BorderLayout.NORTH);
-		add(p2, BorderLayout.SOUTH);
-
-		jbtEnter.addActionListener(new ButtonListener());
-		jbtCancel.addActionListener(new ButtonListener());
+	    frame.setVisible(true);
 	}
 }
