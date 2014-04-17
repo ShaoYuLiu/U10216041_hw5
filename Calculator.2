@@ -339,11 +339,25 @@ public class Calculator extends JFrame{
 					System.out.println("Failed in double press EQUAL Button");
 			}
 		}
+}
+
+
+
+public static void main(String[] args){
+	System.out.println("Main Entry ..");
+
+	Password frame = new Password();
+	frame.setSize(250, 150);
+	frame.setTitle("CALCULATOR");
+	frame.setLocationRelativeTo(null); // Center the frame
+	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	   frame.setVisible(true);
 	}
+}
 
 class Password extends JFrame{
 		//Create a frame of calculator
-		calculator cframe = new calculator();
+		Calculator cframe = new Calculator();
 		//Create the labels, text fields, buttons 
 		private JLabel jlEnter = new JLabel("Password");
 		private JPasswordField jtfPassword = new JPasswordField();
@@ -373,7 +387,7 @@ class Password extends JFrame{
 				//Judge the password
 				if(String.valueOf(jtfPassword.getPassword()).equals(password)){
 					//Set the size
-					cframe.setSize(500,600);
+					cframe.setSize(250,300);
 					//Set title
 					cframe.setTitle("Calculator");
 					////Center a frame
@@ -388,17 +402,4 @@ class Password extends JFrame{
 			}
 		}
 	}
-
-
-	public static void main(String[] args){
-		System.out.println("Main Entry ..");
-		
-		Calculator frame = new Calculator();
-		frame.setSize(250, 300);
-		frame.setTitle("CALCULATOR");
-		frame.setLocationRelativeTo(null); // Center the frame
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    frame.setVisible(true);
-	}
-}
 
